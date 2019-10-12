@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yan.vaccine.register.mapper.UnionMapper">
+  <resultMap type="com.yan.vaccine.register.model.UnionVaVp" id="UnionVaVpMap">
+    <id column="sysnoVa" jdbcType="VARCHAR" property="sysnoVa" />
+    <result column="book_dt" jdbcType="VARCHAR" property="bookDt" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="card_inno" jdbcType="VARCHAR" property="cardInno" />
+    <result column="blh_no" jdbcType="VARCHAR" property="blhNo" />
+    <result column="pat_name" jdbcType="VARCHAR" property="patName" />
+    <result column="pat_sex" jdbcType="VARCHAR" property="patSex" />
+    <result column="pat_age" jdbcType="VARCHAR" property="patAge" />
+    <result column="pat_occu" jdbcType="VARCHAR" property="patOccu" />
+    <result column="pat_add" jdbcType="VARCHAR" property="patAdd" />
+    <result column="pat_tel" jdbcType="VARCHAR" property="patTel" />
+    <result column="va_code" jdbcType="VARCHAR" property="vaCode" />
+    <result column="va_doc" jdbcType="VARCHAR" property="vaDoc" />
+    <result column="hosp_no" jdbcType="VARCHAR" property="hospNo" />
+    <result column="sysno" jdbcType="VARCHAR" property="sysno" />
+    <result column="line_no" jdbcType="INTEGER" property="lineNo" />
+    <result column="va_name" jdbcType="VARCHAR" property="vaName" />
+    <result column="plan_dt" jdbcType="VARCHAR" property="planDt" />
+    <result column="exec_dt" jdbcType="VARCHAR" property="execDt" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="manuf_no" jdbcType="VARCHAR" property="manufNo" />
+    <result column="manuf_name" jdbcType="VARCHAR" property="manufName" />
+    <result column="va_hosp" jdbcType="VARCHAR" property="vaHosp" />
+    <result column="va_hospname" jdbcType="VARCHAR" property="vaHospname" />
+    <result column="va_oper" jdbcType="VARCHAR" property="vaOper" />
+    <result column="drug_barcode" jdbcType="VARCHAR" property="drugBarcode" />
+    <result column="va_left" jdbcType="VARCHAR" property="vaLeft" />
+    <result column="status_flag" jdbcType="VARCHAR" property="statusFlag" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+  </resultMap>
+
+  <resultMap type="com.yan.vaccine.register.model.UnionVaVpHd" id="UnionVaVpHdMap">
+    <id column="sysnoVa" jdbcType="VARCHAR" property="sysnoVa" />
+    <result column="book_dt" jdbcType="VARCHAR" property="bookDt" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="card_inno" jdbcType="VARCHAR" property="cardInno" />
+    <result column="blh_no" jdbcType="VARCHAR" property="blhNo" />
+    <result column="pat_name" jdbcType="VARCHAR" property="patName" />
+    <result column="pat_sex" jdbcType="VARCHAR" property="patSex" />
+    <result column="pat_age" jdbcType="VARCHAR" property="patAge" />
+    <result column="pat_occu" jdbcType="VARCHAR" property="patOccu" />
+    <result column="pat_add" jdbcType="VARCHAR" property="patAdd" />
+    <result column="pat_tel" jdbcType="VARCHAR" property="patTel" />
+    <result column="va_code" jdbcType="VARCHAR" property="vaCode" />
+    <result column="va_doc" jdbcType="VARCHAR" property="vaDoc" />
+    <result column="hosp_no" jdbcType="VARCHAR" property="hospNo" />
+    <result column="sysno" jdbcType="VARCHAR" property="sysno" />
+    <result column="line_no" jdbcType="INTEGER" property="lineNo" />
+    <result column="va_name" jdbcType="VARCHAR" property="vaName" />
+    <result column="plan_dt" jdbcType="VARCHAR" property="planDt" />
+    <result column="exec_dt" jdbcType="VARCHAR" property="execDt" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="manuf_no" jdbcType="VARCHAR" property="manufNo" />
+    <result column="manuf_name" jdbcType="VARCHAR" property="manufName" />
+    <result column="va_hosp" jdbcType="VARCHAR" property="vaHosp" />
+    <result column="va_hospname" jdbcType="VARCHAR" property="vaHospname" />
+    <result column="va_oper" jdbcType="VARCHAR" property="vaOper" />
+    <result column="drug_barcode" jdbcType="VARCHAR" property="drugBarcode" />
+    <result column="va_left" jdbcType="VARCHAR" property="vaLeft" />
+    <result column="status_flag" jdbcType="VARCHAR" property="statusFlag" />
+    <result column="feedback" jdbcType="VARCHAR" property="feedback" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="hdcv_dt" jdbcType="VARCHAR" property="hdcvDt" />
+    <result column="hdcv_add" jdbcType="VARCHAR" property="hdcvAdd" />
+    <result column="dog_type" jdbcType="VARCHAR" property="dogType" />
+    <result column="expose" jdbcType="VARCHAR" property="expose" />
+    <result column="cut_part" jdbcType="VARCHAR" property="cutPart" />
+    <result column="cut_no" jdbcType="VARCHAR" property="cutNo" />
+    <result column="cut_deal" jdbcType="VARCHAR" property="cutDeal" />
+    <result column="pat_weight" jdbcType="VARCHAR" property="patWeight" />
+    <result column="va_protein" jdbcType="VARCHAR" property="vaProtein" />
+    <result column="va_offsite" jdbcType="VARCHAR" property="vaOffsite" />
+    <result column="va_history" jdbcType="VARCHAR" property="vaHistory" />
+    <result column="va_sysno" jdbcType="VARCHAR" property="vaSysno" />
+    <result column="va_protein_no" jdbcType="VARCHAR" property="vaProteinNo" />
+    <result column="va_protein_part" jdbcType="VARCHAR" property="vaProteinPart" />
+  </resultMap>
+
+  <select id="searchUnionvavpOrderByBdt" resultMap="UnionVaVpMap" parameterType="map">
+    SELECT va.sysno sysnoVa, va.book_dt, va.card_no, va.card_inno, va.blh_no
+          , va.pat_name, va.pat_sex, va.pat_age, va.pat_occu, va.pat_add
+          , va.pat_tel, va.va_code, va.va_doc, va.hosp_no, vp.sysno
+          , vp.line_no, vp.va_name, vp.plan_dt, vp.exec_dt, vp.batch_no
+          , vp.manuf_no, vp.manuf_name, vp.va_hosp, vp.va_hospname, vp.va_oper
+          , vp.drug_barcode, vp.va_left, vp.status_flag, vp.feedback, vp.remarks
+    FROM va_booking va, va_plan_det vp
+    WHERE vp.sysno = va.sysno
+    <if test="searchName != null">
+      AND  pat_name like #{searchName}
+    </if>
+    ORDER BY book_dt desc
+  </select>
+
+  <select id="searchUnionvavpOrderByEdt" resultMap="UnionVaVpMap" parameterType="map">
+    SELECT va.sysno sysnoVa, va.book_dt, va.card_no, va.card_inno, va.blh_no
+    , va.pat_name, va.pat_sex, va.pat_age, va.pat_occu, va.pat_add
+    , va.pat_tel, va.va_code, va.va_doc, va.hosp_no, vp.sysno
+    , vp.line_no, vp.va_name, vp.plan_dt, vp.exec_dt, vp.batch_no
+    , vp.manuf_no, vp.manuf_name, vp.va_hosp, vp.va_hospname, vp.va_oper
+    , vp.drug_barcode, vp.va_left, vp.status_flag, vp.feedback, vp.remarks
+    FROM va_booking va, va_plan_det vp
+    WHERE vp.sysno = va.sysno
+    <if test="searchName != null">
+      AND  pat_name like #{searchName}
+    </if>
+    <if test="execName != null">
+      AND  va_oper = #{execName}
+    </if>
+    ORDER BY exec_dt desc
+  </select>
+
+  <select id="searchUnionVaVpHdBySysno" resultMap="UnionVaVpHdMap" parameterType="map">
+    SELECT va.sysno sysnoVa, va.book_dt, va.card_no, va.card_inno, va.blh_no
+    , va.pat_name, va.pat_sex, va.pat_age, va.pat_occu, va.pat_add
+    , va.pat_tel, va.va_code, va.va_doc, va.hosp_no, vp.sysno
+    , vp.line_no, vp.va_name, vp.plan_dt, vp.exec_dt, vp.batch_no
+    , vp.manuf_no, vp.manuf_name, vp.va_hosp, vp.va_hospname, vp.va_oper
+    , vp.drug_barcode, vp.va_left, vp.status_flag, vp.feedback, vp.remarks
+    , hd.hdcv_dt, hd.hdcv_add, hd.dog_type, hd.expose, hd.cut_part
+    , hd.cut_no, hd.cut_deal, hd.va_protein, hd.pat_weight, hd.va_offsite, hd.va_history
+    , hd.va_sysno, hd.va_protein_no, hd.va_protein_part
+    FROM va_booking va, va_plan_det vp ,va_hdcv_mst hd
+    WHERE va.sysno =  vp.sysno and va.sysno = hd.sysno and va.sysno = #{sysno}
+    order by plan_dt
+  </select>
+
+  <select id="searchUnionVaHdBySysno" resultMap="UnionVaVpHdMap" parameterType="map">
+    SELECT va.sysno sysnoVa, va.book_dt, va.card_no, va.card_inno, va.blh_no
+    , va.pat_name, va.pat_sex, va.pat_age, va.pat_occu, va.pat_add
+    , va.pat_tel, va.va_code, va.va_doc, va.hosp_no
+    , hd.hdcv_dt, hd.hdcv_add, hd.dog_type, hd.expose, hd.cut_part
+    , hd.cut_no, hd.cut_deal, hd.va_protein, hd.pat_weight, hd.va_offsite, hd.va_history
+    , hd.va_sysno, hd.va_protein_no, hd.va_protein_part, ''  sysno
+    , 1  line_no, ''  va_name, ''  plan_dt, ''  exec_dt, ''  batch_no
+    , ''  manuf_no, ''  manuf_name, ''  va_hosp, ''  va_hospname, ''  va_oper
+    , ''  drug_barcode, ''  va_left, ''  status_flag, ''  feedback, ''  remarks
+    FROM va_booking va,va_hdcv_mst hd
+    WHERE va.sysno = hd.sysno and va.sysno = #{sysno}
+  </select>
+</mapper>

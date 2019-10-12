@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yan.vaccine.statistics.mapper.StatisticsMapper">
+  <resultMap type="com.yan.vaccine.statistics.model.RabiesOutStatistics" id="ROSMap">
+    <id column="sysno" jdbcType="VARCHAR" property="sysno" />
+    <result column="dt" jdbcType="VARCHAR" property="bookDt" />
+    <result column="pat_name" jdbcType="VARCHAR" property="patName" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="sNumber" jdbcType="INTEGER" property="vaNumber" />
+  </resultMap>
+
+  <resultMap type="com.yan.vaccine.statistics.model.RabiesCodeFormDoc" id="RCFDMap">
+    <id column="sysno" jdbcType="VARCHAR" property="sysno" />
+    <result column="book_dt" jdbcType="VARCHAR" property="bookDt" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="card_inno" jdbcType="VARCHAR" property="cardInno" />
+    <result column="blh_no" jdbcType="VARCHAR" property="blhNo" />
+    <result column="pat_name" jdbcType="VARCHAR" property="patName" />
+    <result column="pat_sex" jdbcType="VARCHAR" property="patSex" />
+    <result column="pat_age" jdbcType="VARCHAR" property="patAge" />
+    <result column="pat_occu" jdbcType="VARCHAR" property="patOccu" />
+    <result column="pat_add" jdbcType="VARCHAR" property="patAdd" />
+    <result column="pat_tel" jdbcType="VARCHAR" property="patTel" />
+    <result column="va_code" jdbcType="VARCHAR" property="vaCode" />
+    <result column="va_doc" jdbcType="VARCHAR" property="vaDoc" />
+    <result column="hosp_no" jdbcType="VARCHAR" property="hospNo" />
+    <result column="hdcv_dt" jdbcType="VARCHAR" property="hdcvDt" />
+    <result column="hdcv_add" jdbcType="VARCHAR" property="hdcvAdd" />
+    <result column="dog_type" jdbcType="VARCHAR" property="dogType" />
+    <result column="expose" jdbcType="VARCHAR" property="expose" />
+    <result column="cut_part" jdbcType="VARCHAR" property="cutPart" />
+    <result column="cut_no" jdbcType="VARCHAR" property="cutNo" />
+    <result column="cut_deal" jdbcType="VARCHAR" property="cutDeal" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="pat_weight" jdbcType="VARCHAR" property="patWeight" />
+    <result column="va_protein" jdbcType="VARCHAR" property="vaProtein" />
+    <result column="va_times" jdbcType="VARCHAR" property="vaTimes" />
+    <result column="va_history" jdbcType="VARCHAR" property="vaHistory" />
+    <result column="va_offsite" jdbcType="VARCHAR" property="vaOffsite" />
+    <result column="va_sysno" jdbcType="VARCHAR" property="vaSysno" />
+    <result column="vaProtein_no" jdbcType="VARCHAR" property="vaProteinNo" />
+    <result column="vaProtein_part" jdbcType="VARCHAR" property="vaProteinPart" />
+    <result column="va_name" jdbcType="VARCHAR" property="vaName" />
+    <result column="manuf_no" jdbcType="VARCHAR" property="manufNo" />
+    <result column="manuf_name" jdbcType="VARCHAR" property="manufName" />
+    <result column="snumber" jdbcType="INTEGER" property="snumber" />
+    <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="va_protein_fac" jdbcType="VARCHAR" property="vaProteinFac" />
+  </resultMap>
+
+  <select id="rabiesUsePeriod" resultMap="ROSMap" parameterType="map">
+    SELECT
+      vh.va_sysno sysno,b.pat_name pat_name,a.exec_dt dt,a.batch_no batch_no,COUNT(1) sNumber
+      FROM [dbo].[va_plan_det] a,[dbo].[va_booking] b,[dbo].[va_hdcv_mst] vh
+      WHERE a.exec_dt &gt;= #{startDate} AND a.exec_dt &lt;= #{endDate}AND a.sysno = b.sysno AND a.sysno = vh.sysno AND b.va_code = 'hdcv' AND a.status_flag = 'done'
+        <if test="searchName != null">
+          AND  b.pat_name LIKE #{searchName}
+        </if>
+      GROUP BY vh.va_sysno,a.exec_dt,b.pat_name,a.batch_no
+      ORDER BY exec_dt DESC,sysno DESC
+  </select>
+
+  <select id="residualVaccine" resultMap="ROSMap" parameterType="map">
+    SELECT
+    vh.va_sysno sysno,b.pat_name pat_name,b.book_dt dt,a.batch_no batch_no,COUNT(1) sNumber
+    FROM [dbo].[va_plan_det] a,[dbo].[va_booking] b,[dbo].[va_hdcv_mst] vh
+    WHERE (
+      a.sysno = b.sysno AND a.sysno = vh.sysno AND b.va_code = 'hdcv' AND a.status_flag = 'init'
+      <if test="searchName != null">
+        AND pat_name LIKE #{searchName}
+      </if>
+    )
+    OR
+    (
+      a.sysno = b.sysno AND b.va_code = 'hdcv' AND a.status_flag = 'cancel'
+      <if test="searchName != null">
+        AND pat_name LIKE #{searchName}
+      </if>
+    )
+    GROUP BY vh.va_sysno,b.book_dt,b.pat_name,a.batch_no
+    ORDER BY book_dt DESC,sysno DESC
+  </select>
+
+  <select id="rabiesCodeD" resultMap="RCFDMap" parameterType="map">
+    SELECT vbvh.[sysno], vbvh.[book_dt], vbvh.[card_no], vbvh.[card_inno], vbvh.[blh_no]
+    , vbvh.[pat_name], vbvh.[pat_sex], vbvh.[pat_age], vbvh.[pat_occu], vbvh.[pat_add]
+    , vbvh.[pat_tel], vbvh.[va_code], vbvh.[va_doc], vbvh.[hosp_no], vbvh.[hdcv_dt]
+    , vbvh.[hdcv_add], vbvh.[dog_type], vbvh.[expose], vbvh.[cut_part], vbvh.[cut_no]
+    , vbvh.[cut_deal], vbvh.[remarks], vbvh.[pat_weight], vbvh.[va_protein], vbvh.[va_times]
+    , vbvh.[va_history], vbvh.[va_offsite], vbvh.[va_sysno], vbvh.[va_protein_no], vbvh.[va_protein_part]
+    , vp.[batch_no], vp.[va_name], vp.[manuf_no], vp.[manuf_name], vp.sNumber,vbvh.[va_protein_fac]
+    FROM (
+    SELECT [va_booking].[sysno], [book_dt], [card_no], [card_inno], [blh_no]
+    , [pat_name], [pat_sex], [pat_age], [pat_occu], [pat_add]
+    , [pat_tel], [va_code], [va_doc], [va_booking].[hosp_no], [hdcv_dt]
+    , [hdcv_add], [dog_type], [expose], [cut_part], [cut_no]
+    , [cut_deal], [remarks], [pat_weight], [va_protein], [va_times]
+    , [va_history], [va_offsite], [va_sysno], [va_protein_no], [va_protein_part],[va_protein_fac]
+    FROM [dbo].[va_booking], [dbo].[va_hdcv_mst]
+    WHERE [va_booking].sysno = [va_hdcv_mst].sysno
+    ) vbvh
+    LEFT JOIN (
+    SELECT [sysno], MIN([va_name]) AS [va_name], MIN([manuf_no]) AS [manuf_no]
+    , MIN([manuf_name]) AS [manuf_name], MAX([batch_no]) AS [batch_no]
+    , MIN(line_no) AS line_no, COUNT(1) AS sNumber
+    FROM [va_plan_det]
+    GROUP BY sysno
+    HAVING COUNT(*) > 0
+    ) vp
+    ON vbvh.[sysno] = vp.[sysno]
+    where 1 = 1
+    <if test="searchName != null">
+      AND  [pat_name] LIKE #{searchName}
+    </if>
+    <if test="searchCode != null">
+      AND  [va_sysno] LIKE #{searchCode}
+    </if>
+    ORDER BY [va_sysno] desc
+  </select>
+
+  <select id="residualVaccineNum" resultType="java.lang.Integer" parameterType="map">
+    SELECT
+    count(1)
+    FROM [dbo].[va_plan_det] a,[dbo].[va_booking] b,[dbo].[va_hdcv_mst] vh
+    WHERE (
+    a.sysno = b.sysno AND a.sysno = vh.sysno and b.va_code = 'hdcv' AND a.status_flag = 'init'
+    )
+    OR
+    (
+    a.sysno = b.sysno AND a.sysno = vh.sysno and b.va_code = 'hdcv' AND a.status_flag = 'cancel'
+    )
+  </select>
+
+  <select id="rabiesOutPeriodNum" resultType="java.lang.Integer" parameterType="map">
+    SELECT COUNT(*)
+    FROM va_plan_det a,va_booking b, va_hdcv_mst vh
+     WHERE  a.sysno = b.sysno AND a.sysno = vh.sysno AND b.va_code = 'hdcv' AND b.book_dt &gt;= #{startDate} AND b.book_dt &lt;= #{endDate}
+    <if test="searchName != null">
+      AND  b.pat_name LIKE #{searchName}
+    </if>
+  </select>
+
+  <select id="rabiesUsePeriodNum" resultType="java.lang.Integer" parameterType="map">
+    SELECT COUNT(*)
+    FROM va_plan_det a,va_booking b, va_hdcv_mst vh
+    WHERE  a.sysno = b.sysno AND a.sysno = vh.sysno AND b.va_code = 'hdcv' AND a.status_flag = 'done' AND a.exec_dt &gt;= #{startDate} AND a.exec_dt &lt;= #{endDate}
+    <if test="searchName != null">
+      AND  b.pat_name LIKE #{searchName}
+    </if>
+  </select>
+</mapper>
